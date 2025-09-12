@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande envoyée | {{ brand|title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="logo">{{ brand }}</div>
+        <nav class="nav">
+            <a href="/">Accueil</a>
+            <a href="/admin/">Admin</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container" style="padding:40px 0;max-width:760px">
+    <h1>Merci, {{ order.customer_name }} !</h1>
+    <p>Votre demande de commande a été envoyée. Nous vous contacterons pour confirmation.</p>
+    <div class="card" style="padding:16px;margin-top:16px">
+        <p><strong>Produit:</strong> {{ order.product.name }} (x{{ order.quantity }})</p>
+        <p><strong>Téléphone:</strong> {{ order.phone_number }}</p>
+        <p><strong>Adresse:</strong> {{ order.address }}</p>
+        {% if order.notes %}<p><strong>Notes:</strong> {{ order.notes }}</p>{% endif %}
+    </div>
+    <div style="margin-top:18px">
+        <a class="btn" href="{{ whatsapp_link }}" target="_blank" rel="noopener">Confirmer via WhatsApp</a>
+        <a class="btn" href="/" style="margin-left:8px;background:#303345;color:#fff">Retour à l'accueil</a>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© {{ brand|title }} – Tous droits réservés.</p>
+    </div>
+    </footer>
+</body>
+</html>
+
+
+
+

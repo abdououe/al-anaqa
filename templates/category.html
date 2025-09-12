@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category_slug|title }} | {{ brand|title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="site-header light">
+    <div class="container header-inner">
+        <div class="logo"><img src="/media/products/gallery/WhatsApp Image 2025-09-09 à 17.35.00_c8aa1678.jpg" alt="{{ brand }}" style="height:28px;width:auto;" /></div>
+        <nav class="nav">
+            <a href="/">Accueil</a>
+            <a href="{% url 'category_list' 'coffret' %}">Montre avec coffret</a>
+            <a href="{% url 'category_list' 'boite_simple' %}">Montre avec boîte simple</a>
+            <a href="{% url 'category_list' 'wallets' %}">Wallets</a>
+            <a href="{% url 'category_list' 'packs' %}">Packs</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container section">
+    <h1>
+        {% if category_slug == 'coffret' %}
+            Montre avec coffret
+        {% elif category_slug == 'boite_simple' %}
+            Montre avec boîte simple
+        {% else %}
+            {{ category_slug|title }}
+        {% endif %}
+    </h1>
+    <div class="grid">
+        {% for product in items %}
+        <a class="card" href="{% url 'product_detail' product.slug %}">
+            <div class="image-wrap">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            </div>
+            <div class="card-body">
+                <h3>{{ product.name }}</h3>
+                <p class="price">Dh {{ product.price }} MAD</p>
+            </div>
+        </a>
+        {% empty %}
+            <p>Aucun article dans cette catégorie.</p>
+        {% endfor %}
+    </div>
+</main>
+
+<footer class="site-footer light">
+    <div class="container">
+        <p>© {{ brand|title }} – Tous droits réservés.</p>
+    </div>
+</footer>
+</body>
+</html>
+
+
+
+

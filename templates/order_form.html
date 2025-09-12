@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander – {{ product.name }} | {{ brand|title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="logo">{{ brand }}</div>
+        <nav class="nav">
+            <a href="/">Accueil</a>
+            <a href="/admin/">Admin</a>
+        </nav>
+    </div>
+    </header>
+
+<main class="container" style="padding:32px 0">
+    <h1>Commander: {{ product.name }}</h1>
+    {% if error %}
+        <p style="color:#ff8080">{{ error }}</p>
+    {% endif %}
+    <form method="post" class="card" style="padding:16px;max-width:680px">
+        {% csrf_token %}
+        <div style="display:grid;gap:12px;grid-template-columns:1fr 1fr">
+            <label>
+                <div>Nom complet</div>
+                <input type="text" name="customer_name" value="{{ form.customer_name }}" required style="width:100%">
+            </label>
+            <label>
+                <div>Téléphone</div>
+                <input type="tel" name="phone_number" value="{{ form.phone_number }}" required style="width:100%">
+            </label>
+        </div>
+        <div style="margin-top:12px">
+            <label>
+                <div>Adresse complète</div>
+                <textarea name="address" rows="3" required style="width:100%">{{ form.address }}</textarea>
+            </label>
+        </div>
+        <div style="display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:12px">
+            <label>
+                <div>Quantité</div>
+                <input type="number" min="1" name="quantity" value="{{ form.quantity|default:1 }}" required style="width:100%">
+            </label>
+            <label>
+                <div>Notes (optionnel)</div>
+                <input type="text" name="notes" value="{{ form.notes }}" style="width:100%">
+            </label>
+        </div>
+        <div style="margin-top:16px">
+            <button class="btn" type="submit">Confirmer la commande</button>
+        </div>
+    </form>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© {{ brand|title }} – Tous droits réservés.</p>
+    </div>
+</footer>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} – {{ brand|title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">{{ brand }}</div>
+            <nav class="nav">
+                <a href="/">Accueil</a>
+                <a href="/admin/">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container product-detail">
+        <div>
+            <div class="image-large" id="main-image">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+            <div class="thumbs" style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+                <button class="thumb" data-src="{{ product.image.url }}" aria-label="Image principale">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid #eee">
+                </button>
+                {% for img in product.images.all %}
+                <button class="thumb" data-src="{{ img.image.url }}" aria-label="{{ img.alt_text }}">
+                    <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid #eee">
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="info">
+            <h1>{{ product.name }}</h1>
+            <p class="price">{{ product.price }} €</p>
+            <p>{{ product.description }}</p>
+            <div style="display:flex;gap:10px;margin-top:10px">
+                <form method="post" action="{% url 'cart_add' product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="qty" value="1">
+                    <button class="btn" type="submit">Ajouter au panier</button>
+                </form>
+                <a class="btn" href="{% url 'order_create' product.slug %}">Commander</a>
+                <a class="btn" href="/">← Retour</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+      document.querySelectorAll('.thumb').forEach(btn=>{
+        btn.addEventListener('click', function(){
+          const src = this.getAttribute('data-src');
+          const img = document.querySelector('#main-image img');
+          if(src && img){ img.src = src; }
+        });
+      });
+    </script>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© {{ brand|title }} – Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
+

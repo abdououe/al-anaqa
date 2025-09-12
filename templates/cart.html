@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon panier | {{ brand|title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="cart-header">
+    <div class="cart-header-inner">
+        <button class="icon-btn" id="menu-toggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+        </button>
+        <div class="cart-brand"><img src="/media/products/gallery/WhatsApp Image 2025-09-09 à 17.35.00_c8aa1678.jpg" alt="{{ brand }}" style="height:24px;width:auto;" /></div>
+        <button class="icon-btn" id="close-cart" aria-label="Fermer">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29 10.59 10.6 16.89 4.29z"/>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<main class="cart-main">
+    <h1 class="cart-title">Mon panier <span class="cart-articles">{{ cart.count }} Articles</span></h1>
+    {% if lines %}
+    <div class="cart-items-container">
+        {% for line in lines %}
+        <div class="cart-item-card">
+            <img src="{{ line.product.image.url }}" alt="{{ line.product.name }}" class="cart-item-img">
+            <div class="cart-item-info">
+                <h3 class="cart-item-title">{{ line.product.name }}</h3>
+                <div class="cart-item-details">
+                    <span class="cart-item-quantity">QTY {{ line.qty }}</span>
+                    <span class="cart-item-price">{{ line.line_total }} DH</span>
+                </div>
+            </div>
+            <div class="cart-item-buttons">
+                <button class="cart-edit-btn" title="Modifier">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                </button>
+                <a href="{% url 'cart_remove' line.product.id %}" class="cart-delete-btn" title="Supprimer">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="cart-subtotal-section">
+        <div class="cart-subtotal-row">
+            <span class="cart-subtotal-label">Sous-total du panier</span>
+            <span class="cart-subtotal-amount">{{ total }} DH</span>
+        </div>
+    </div>
+    
+    <div class="cart-buttons-section">
+        <button class="cart-buy-now-btn" id="open-checkout">Acheter maintenant</button>
+        <a href="/" class="cart-continue-shopping-btn">Poursuivre vos achats</a>
+    </div>
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
+</main>
+
+<div class="modal" id="checkout-modal" hidden>
+    <div class="modal-backdrop" id="close-checkout"></div>
+    <div class="modal-content">
+        <h2>Finaliser la commande</h2>
+        <form method="post" action="{% if lines %}{% url 'order_create' lines.0.product.slug %}{% endif %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <input name="customer_name" placeholder="Nom complet" required>
+                <input name="phone_number" placeholder="Téléphone" required>
+            </div>
+            <textarea name="address" placeholder="Adresse complète" rows="3" required></textarea>
+            <input name="quantity" type="number" min="1" value="1">
+            <input name="notes" placeholder="Notes (optionnel)">
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Envoyer</button>
+                <button class="btn btn-secondary" type="button" id="close-checkout-btn">Annuler</button>
+            </div>
+        </form>
+    </div>
+    </div>
+
+<script>
+  const openBtn = document.getElementById('open-checkout');
+  const modal = document.getElementById('checkout-modal');
+  const closeBackdrop = document.getElementById('close-checkout');
+  const closeBtn = document.getElementById('close-checkout-btn');
+  if (openBtn) openBtn.addEventListener('click', () => modal.hidden = false);
+  if (closeBackdrop) closeBackdrop.addEventListener('click', () => modal.hidden = true);
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.hidden = true);
+</script>
+
+<style>
+  .modal{position:fixed;inset:0;display:grid;place-items:center}
+  .modal[hidden]{display:none}
+  .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+  .modal-content{position:relative;background:#fff;border:1px solid #eee;border-radius:14px;padding:16px;z-index:1;width:min(520px,92vw)}
+</style>
+
+</body>
+</html>
+
+
+
+
+
