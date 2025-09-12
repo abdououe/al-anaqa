@@ -74,16 +74,18 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'al_anaqawatch',
-        'USER': 'alanaqa',
-        'PASSWORD': 'ton_mdp',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
-        'OPTIONS': {'charset': 'utf8mb4'},
-    }
+        'NAME': os.environ.get('MYSQLDATABASE', 'railway'),   # nom de la base
+        'USER': os.environ.get('MYSQLUSER', 'root'),          # utilisateur
+        'PASSWORD': os.environ.get('MYSQLPASSWORD'),          # mot de passe root
+        'HOST': os.environ.get('MYSQLHOST'),                  # host fourni par Railway
+        'PORT': os.environ.get('MYSQLPORT', '3307'),          # <-- ici ton port 3307
+        'OPTIONS': {'charset': 'utf8mb4'},                    # pour emojis
+    }
 }
 
 
