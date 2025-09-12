@@ -75,17 +75,18 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 import os
-
+import pymysql
+pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE', 'railway'),   # nom de la base
-        'USER': os.environ.get('MYSQLUSER', 'root'),          # utilisateur
-        'PASSWORD': os.environ.get('MYSQLPASSWORD'),          # mot de passe root
-        'HOST': os.environ.get('MYSQLHOST'),                  # host fourni par Railway
-        'PORT': os.environ.get('MYSQLPORT', '3307'),          # <-- ici ton port 3307
-        'OPTIONS': {'charset': 'utf8mb4'},                    # pour emojis
-    }
+        'NAME': os.environ.get('MYSQLDATABASE', 'railway'),
+        'USER': os.environ.get('MYSQLUSER', 'root'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD', '2122'),  # mot de passe par défaut local
+        'HOST': os.environ.get('MYSQLHOST', '127.0.0.1'),     # host local
+        'PORT': os.environ.get('MYSQLPORT', '3307'),
+        'OPTIONS': {'charset': 'utf8mb4'},
+    }
 }
 
 
