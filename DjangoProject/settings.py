@@ -77,17 +77,34 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 import os
 import pymysql
 pymysql.install_as_MySQLdb()
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE', 'railway'),
-        'USER': os.environ.get('MYSQLUSER', 'root'),
-        'PASSWORD': os.environ.get('MYSQLPASSWORD', '2122'),  # mot de passe par défaut local
-        'HOST': os.environ.get('MYSQLHOST', '127.0.0.1'),     # host local
-        'PORT': os.environ.get('MYSQLPORT', '3307'),
-        'OPTIONS': {'charset': 'utf8mb4'},
+
+if os.environ.get("RAILWAY_ENVIRONMENT"):
+    # 🚀 Production Railway
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('MYSQLDATABASE'),
+            'USER': os.environ.get('MYSQLUSER'),
+            'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+            'HOST': os.environ.get('MYSQLHOST'),
+            'PORT': os.environ.get('MYSQLPORT'),
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
     }
-}
+else:
+    # 💻 Local (XAMPP/MAMP/WAMP)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'railway',
+            'USER': 'root',
+            'PASSWORD': '2122',
+            'HOST': '127.0.0.1',
+            'PORT': '3307',
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
+    }
+
 
 
 # Password validation
