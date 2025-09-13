@@ -88,9 +88,9 @@ if os.environ.get("MYSQLHOST"):  # Si la variable existe, c'est prod
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ.get("MYSQL_DATABASE"),
-            "USER": os.environ.get("MYSQLUSER"),
-            "PASSWORD": os.environ.get("MYSQLPASSWORD"),
+            "NAME": os.environ.get("MYSQL_DATABASE","al_anaqawatch"),
+            "USER": os.environ.get("MYSQLUSER","root"),
+            "PASSWORD": os.environ.get("MYSQLPASSWORD",""),
             "HOST": os.environ.get("MYSQLHOST"),
             "PORT": os.environ.get("MYSQLPORT", "3306"),
             "OPTIONS": {"charset": "utf8mb4"},
