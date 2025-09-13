@@ -89,18 +89,15 @@ import os
 
 if os.environ.get("MYSQLHOST"):  # Si la variable existe, c'est prod
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ.get("MYSQL_DATABASE","al_anaqawatch"),
-            "USER": os.environ.get("MYSQL_USER","root"),
-            "PASSWORD": os.environ.get("MYSQL_PASSWORD",""),
-            "HOST": os.environ.get("MYSQL_HOST"),
-            "PORT": os.environ.get("MYSQL_PORT", "3306"),
-            'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQL_DATABASE', 'railway'),
+        'USER': os.environ.get('MYSQLUSER', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_ROOT_PASSWORD', ''),
+        'HOST': os.environ.get('MYSQLHOST', '127.0.0.1'),
+        'PORT': os.environ.get('MYSQLPORT', '3306'),
     }
+}
 else:
     # config locale
     DATABASES = {
