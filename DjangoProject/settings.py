@@ -82,32 +82,34 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 # Vérifie si on est sur Railway (production)
-if os.environ.get("RAILWAY_ENVIRONMENT"):
-    # Production (Railway)
+import os
+
+if os.environ.get("MYSQLHOST"):  # Si la variable existe, c'est prod
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ.get("MYSQLDATABASE", "al_anaqawatch"),
-            "USER": os.environ.get("MYSQLUSER", "root"),
-            "PASSWORD": os.environ.get("MYSQLPASSWORD", ""),
-            "HOST": os.environ.get("MYSQLHOST", "127.0.0.1"),
+            "NAME": os.environ.get("MYSQL_DATABASE"),
+            "USER": os.environ.get("MYSQLUSER"),
+            "PASSWORD": os.environ.get("MYSQLPASSWORD"),
+            "HOST": os.environ.get("MYSQLHOST"),
             "PORT": os.environ.get("MYSQLPORT", "3306"),
             "OPTIONS": {"charset": "utf8mb4"},
         }
     }
 else:
-    # Local (XAMPP/WAMP)
+    # config locale
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
             "NAME": "al_anaqawatch",
             "USER": "root",
-            "PASSWORD": "2122",  # mot de passe local MySQL
+            "PASSWORD": "2122",
             "HOST": "127.0.0.1",
             "PORT": "3307",
             "OPTIONS": {"charset": "utf8mb4"},
         }
     }
+
 
 
 
