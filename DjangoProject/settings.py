@@ -81,7 +81,12 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 # 🚀 Production Railway
+import os
+import pymysql
+pymysql.install_as_MySQLdb()
+
 if os.environ.get("RAILWAY_ENVIRONMENT"):
+    # 🚀 Production Railway
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -89,23 +94,24 @@ if os.environ.get("RAILWAY_ENVIRONMENT"):
             'USER': os.environ.get('MYSQLUSER'),
             'PASSWORD': os.environ.get('MYSQLPASSWORD'),
             'HOST': os.environ.get('MYSQLHOST'),
-            'PORT': os.environ.get('MYSQLPORT'),  # Railway fournit le bon port
+            'PORT': os.environ.get('MYSQLPORT', '3306'),  # Railway donne généralement le port, sinon MySQL par défaut
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
-# 💻 Local (XAMPP / WAMP / MAMP)
 else:
+    # 💻 Local (MySQL dernière version sur 3307)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'railway',       # Nom de ta base locale
-            'USER': 'root',          # Utilisateur XAMPP par défaut
-            'PASSWORD': '2122',      # Ton mot de passe local
+            'NAME': 'railway',          # Remplace par le nom de ta base locale
+            'USER': 'root',             # Ton utilisateur MySQL local
+            'PASSWORD': '2122',         # Ton mot de passe local
             'HOST': '127.0.0.1',
-            'PORT': '3307',          # Port local XAMPP
+            'PORT': '3307',             # Port de la dernière version MySQL
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
+
 
 
 
