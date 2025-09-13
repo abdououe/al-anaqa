@@ -96,7 +96,9 @@ if os.environ.get("MYSQLHOST"):  # Si la variable existe, c'est prod
             "PASSWORD": os.environ.get("MYSQLPASSWORD",""),
             "HOST": os.environ.get("MYSQLHOST"),
             "PORT": os.environ.get("MYSQLPORT", "3306"),
-            "OPTIONS": {"charset": "utf8mb4"},
+            'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
         }
     }
 else:
@@ -145,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
