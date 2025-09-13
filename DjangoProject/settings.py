@@ -76,10 +76,12 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 
 import os
 import pymysql
+
+# Pour utiliser PyMySQL comme MySQLdb
 pymysql.install_as_MySQLdb()
 
+# 🚀 Production Railway
 if os.environ.get("RAILWAY_ENVIRONMENT"):
-    # 🚀 Production Railway
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -87,23 +89,24 @@ if os.environ.get("RAILWAY_ENVIRONMENT"):
             'USER': os.environ.get('MYSQLUSER'),
             'PASSWORD': os.environ.get('MYSQLPASSWORD'),
             'HOST': os.environ.get('MYSQLHOST'),
-            'PORT': os.environ.get('MYSQLPORT'),
+            'PORT': os.environ.get('MYSQLPORT'),  # Railway fournit le bon port
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
+# 💻 Local (XAMPP / WAMP / MAMP)
 else:
-    # 💻 Local (XAMPP/MAMP/WAMP)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'railway',
-            'USER': 'root',
-            'PASSWORD': '2122',
+            'NAME': 'railway',       # Nom de ta base locale
+            'USER': 'root',          # Utilisateur XAMPP par défaut
+            'PASSWORD': '2122',      # Ton mot de passe local
             'HOST': '127.0.0.1',
-            'PORT': '3307',
+            'PORT': '3307',          # Port local XAMPP
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
+
 
 
 
