@@ -83,29 +83,29 @@ pymysql.install_as_MySQLdb()
 
 # Vérifie si on est sur Railway (production)
 if os.environ.get("RAILWAY_ENVIRONMENT"):
-    # 🚀 Production Railway
+    # Production (Railway)
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('MYSQLDATABASE', 'al_anaqawatch'),  # Nom de la base Railway
-            'USER': os.environ.get('MYSQLUSER', 'root'),
-            'PASSWORD': os.environ.get('MYSQLPASSWORD', ''),
-            'HOST': os.environ.get('MYSQLHOST', '127.0.0.1'),
-            'PORT': os.environ.get('MYSQLPORT', '3306'),
-            'OPTIONS': {'charset': 'utf8mb4'},
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("MYSQLDATABASE", "al_anaqawatch"),
+            "USER": os.environ.get("MYSQLUSER", "root"),
+            "PASSWORD": os.environ.get("MYSQLPASSWORD", ""),
+            "HOST": os.environ.get("MYSQLHOST", "127.0.0.1"),
+            "PORT": os.environ.get("MYSQLPORT", "3306"),
+            "OPTIONS": {"charset": "utf8mb4"},
         }
     }
 else:
-    # 💻 Local (XAMPP/MAMP/WAMP)
+    # Local (XAMPP/WAMP)
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'al_anaqawatch',   # Nom de ta base locale
-            'USER': 'root',
-            'PASSWORD': '2122',
-            'HOST': '127.0.0.1',
-            'PORT': '3307',       # Port de ta dernière version MySQL locale
-            'OPTIONS': {'charset': 'utf8mb4'},
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "al_anaqawatch",
+            "USER": "root",
+            "PASSWORD": "2122",  # mot de passe local MySQL
+            "HOST": "127.0.0.1",
+            "PORT": "3307",
+            "OPTIONS": {"charset": "utf8mb4"},
         }
     }
 
