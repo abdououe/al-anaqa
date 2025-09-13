@@ -74,31 +74,24 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import os
-import pymysql
 
-# Pour utiliser PyMySQL comme MySQLdb
-pymysql.install_as_MySQLdb()
 
 # 🚀 Production Railway
 import os
 import pymysql
 pymysql.install_as_MySQLdb()
 
-
-# -----------------------------
-# DATABASES
-# -----------------------------
+# Vérifie si on est sur Railway (production)
 if os.environ.get("RAILWAY_ENVIRONMENT"):
     # 🚀 Production Railway
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('MYSQLDATABASE'),
-            'USER': os.environ.get('MYSQLUSER'),
-            'PASSWORD': os.environ.get('MYSQLPASSWORD'),
-            'HOST': os.environ.get('MYSQLHOST'),
-            'PORT': os.environ.get('MYSQLPORT', '3306'),  # par défaut 3306
+            'NAME': os.environ.get('MYSQLDATABASE', 'al_anaqawatch'),  # Nom de la base Railway
+            'USER': os.environ.get('MYSQLUSER', 'root'),
+            'PASSWORD': os.environ.get('MYSQLPASSWORD', ''),
+            'HOST': os.environ.get('MYSQLHOST', '127.0.0.1'),
+            'PORT': os.environ.get('MYSQLPORT', '3306'),
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
@@ -107,14 +100,15 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'railway',       # nom de ta DB locale
-            'USER': 'root',          # utilisateur local
-            'PASSWORD': '2122',      # mot de passe local
-            'HOST': '127.0.0.1',     # localhost
-            'PORT': '3307',          # port du MySQL local récent
+            'NAME': 'al_anaqawatch',   # Nom de ta base locale
+            'USER': 'root',
+            'PASSWORD': '2122',
+            'HOST': '127.0.0.1',
+            'PORT': '3307',       # Port de ta dernière version MySQL locale
             'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
+
 
 
 
